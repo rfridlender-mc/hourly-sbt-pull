@@ -8,7 +8,7 @@ def generate_sbt_pull_commands():
     current_date = start_date
 
     while current_date <= end_date:
-        hour_end = current_date + timedelta(hours=1) - timedelta(seconds=1)
+        hour_end = current_date + timedelta(hours=1)
 
         if hour_end > end_date:
             hour_end = end_date
@@ -17,11 +17,11 @@ def generate_sbt_pull_commands():
         end_str = hour_end.strftime("%Y-%m-%dT%H:%M:%SZ")
 
         # Inbound command
-        inbound_cmd = f'python "D:\\batch_files\\py_files\\SBT API Message Pull.py" --env-file D:\\Massena\\Analytics\\Internal\\Internal11.txt --fetch-all --start-timestamp {start_str} --end-timestamp {end_str} --direction inbound --page-size 1000 --use-db-groups'
+        inbound_cmd = f'python "D:\\batch_files\\py_files\\SBT API Message Pull.py" --env-file D:\\Massena\\Analytics\\Internal\\Internal11.txt --fetch-all --start-timestamp {start_str} --end-timestamp {end_str} --direction inbound --page-size 1000'
         commands.append(inbound_cmd)
 
         # Outbound command
-        outbound_cmd = f'python "D:\\batch_files\\py_files\\SBT API Message Pull.py" --env-file D:\\Massena\\Analytics\\Internal\\Internal11.txt --fetch-all --start-timestamp {start_str} --end-timestamp {end_str} --direction outbound --page-size 1000 --use-db-groups'
+        outbound_cmd = f'python "D:\\batch_files\\py_files\\SBT API Message Pull.py" --env-file D:\\Massena\\Analytics\\Internal\\Internal11.txt --fetch-all --start-timestamp {start_str} --end-timestamp {end_str} --direction outbound --page-size 1000'
         commands.append(outbound_cmd)
 
         # Move to next hour
