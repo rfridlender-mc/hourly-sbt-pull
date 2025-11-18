@@ -1,8 +1,21 @@
 from datetime import datetime, timedelta
+from zoneinfo import ZoneInfo
 
 def generate_sbt_pull_commands():
-    start_date = datetime(2025, 7, 20, 0, 0, 0)
-    end_date = datetime(2025, 9, 9, 23, 59, 59)
+    # Timezone for the dates below (e.g., 'America/New_York', 'US/Eastern', 'Europe/London', 'UTC')
+    TIMEZONE = 'America/Chicago'
+
+    start_date = datetime(2025, 10, 10, 0, 0, 0)
+    end_date = datetime(2025, 10, 11, 0, 0, 0)
+
+    # Convert input timezone to UTC
+    tz = ZoneInfo(TIMEZONE)
+    start_date_tz = start_date.replace(tzinfo=tz)
+    end_date_tz = end_date.replace(tzinfo=tz)
+
+    # Convert to UTC
+    start_date = start_date_tz.astimezone(ZoneInfo('UTC')).replace(tzinfo=None)
+    end_date = end_date_tz.astimezone(ZoneInfo('UTC')).replace(tzinfo=None)
 
     commands = []
     current_date = start_date
@@ -34,7 +47,7 @@ def generate_sbt_pull_commands():
 
     print(f"Generated {len(commands)} commands in sbt_hourly_pull.bat")
     print(f"Total hours covered: {len(commands) // 2}")
-    print(f"Date range: {start_date.strftime('%Y-%m-%d %H:%M:%S')} to {end_date.strftime('%Y-%m-%d %H:%M:%S')}")
+    print(f"Date range (UTC): {start_date.strftime('%Y-%m-%d %H:%M:%S')} to {end_date.strftime('%Y-%m-%d %H:%M:%S')}")
 
 if __name__ == "__main__":
     generate_sbt_pull_commands()
